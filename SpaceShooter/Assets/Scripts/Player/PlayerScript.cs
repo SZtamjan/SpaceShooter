@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class Movement : MonoBehaviour
+public class PlayerScript : MonoBehaviour
 {
-    public static Movement Instance;
+    public static PlayerScript Instance;
 
     private void Awake()
     {

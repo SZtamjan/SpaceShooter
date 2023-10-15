@@ -14,7 +14,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void Start()
     {
-        Movement mov = Movement.Instance;
+        PlayerScript mov = PlayerScript.Instance;
         xBounds = new Vector2(mov.minBounds.x, mov.maxBounds.x);
         StartCoroutine(SpawnEnemies());
     }

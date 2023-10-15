@@ -15,7 +15,7 @@ public class EnemyMover : MonoBehaviour
 
     private void Start()
     {
-        Movement mov = Movement.Instance;
+        PlayerScript mov = PlayerScript.Instance;
         xLimits = new Vector2(mov.minBounds.x, mov.maxBounds.x);
         yLimit = mov.minBounds.y;
         
@@ -25,7 +25,7 @@ public class EnemyMover : MonoBehaviour
     private void Update()
     {
         //Height Y move
-        plusPos = new Vector3(0, -moveSpeed * Time.deltaTime, 0);
+        plusPos.y = -moveSpeed * Time.deltaTime;
         
         //Width X move
         if ((xPos >= transform.position.x-0.1f) && (xPos <= transform.position.x+0.1f))
