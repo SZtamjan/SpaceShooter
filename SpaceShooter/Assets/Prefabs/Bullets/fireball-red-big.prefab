@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4933292759921468}
   - component: {fileID: 212396194626849566}
   - component: {fileID: 4823709110617877409}
+  - component: {fileID: -2177798635751666833}
   - component: {fileID: 7372488500871892723}
   m_Layer: 8
   m_Name: fireball-red-big
@@ -99,6 +100,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 3
+--- !u!114 &-2177798635751666833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1019480068096796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec04ef3d30d7ed342ada1f2fa1c62450, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!58 &7372488500871892723
 CircleCollider2D:
   m_ObjectHideFlags: 0

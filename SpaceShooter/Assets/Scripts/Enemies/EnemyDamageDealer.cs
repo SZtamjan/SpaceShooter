@@ -9,9 +9,9 @@ public class EnemyDamageDealer : MonoBehaviour
     [SerializeField] private int enemyHP = 10;
     [SerializeField] private int enemyDamage = 5;
     
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        print("kolizja z graczem");
+        print("trigger z graczem");
         other.gameObject.GetComponent<PlayerDamageDealer>().DealDamage(enemyDamage);
     }
 }

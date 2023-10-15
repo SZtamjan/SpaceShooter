@@ -22,9 +22,14 @@ public class PlayerDamageDealer : MonoBehaviour
     {
         if (playerHP <= 0)
         {
-            Destroy(gameObject);
-            //Do something
+            Die();
         }
+    }
+
+    private void Die()
+    {
+        //Do something
+        Destroy(gameObject);
     }
     
 }
