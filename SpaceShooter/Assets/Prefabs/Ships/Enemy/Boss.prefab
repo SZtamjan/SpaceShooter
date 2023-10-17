@@ -266,7 +266,6 @@ GameObject:
   - component: {fileID: 5949669933869623409}
   - component: {fileID: -806835504669202872}
   - component: {fileID: 5314609463165215459}
-  - component: {fileID: 2907589396093213217}
   - component: {fileID: 5762268219437971736}
   - component: {fileID: 6524343430738967282}
   - component: {fileID: 3273710383986543469}
@@ -381,19 +380,6 @@ MonoBehaviour:
   - {fileID: 4526147113439076449}
   - {fileID: 4416689742048879999}
   - {fileID: 5645526347304745824}
---- !u!114 &2907589396093213217
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8513819100505361686}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b191eea071491e43acc4c7c9b9f8459, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 1
 --- !u!114 &5762268219437971736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -406,7 +392,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbe4f20897973ef46b6cb49dd3bdccb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyHP: 200
+  isBoss: 0
+  enemyHP: 150
   enemyDamage: 5
 --- !u!68 &6524343430738967282
 EdgeCollider2D:

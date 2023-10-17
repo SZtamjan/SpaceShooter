@@ -44,7 +44,8 @@ public class EnemySpawner : MonoBehaviour
 
     public void SpawnBoss()
     {
-        Instantiate(enemyBoss, spawner);
+        GameObject boss = Instantiate(enemyBoss, spawner);
+        boss.GetComponent<EnemyDamageDealer>().isBossProperty = true;
     }
     
 }

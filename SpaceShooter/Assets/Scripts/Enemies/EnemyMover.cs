@@ -26,54 +26,78 @@ public class EnemyMover : MonoBehaviour
         yLimit = mov.minBounds.y;
         
         GetRandomWidth();
-    }
-
-    private void Update()
-    {
+        
         if (isFromBoss)
         {
-            EnemyFromBoss();
+            StartCoroutine(EnemyFromBoss());
         }
         else
         {
-            RegularEnemy();
+            StartCoroutine(RegularEnemy());
         }
     }
-    
-    private void EnemyFromBoss()
+
+    private IEnumerator EnemyFromBoss()
     {
-        transform.position = Vector2.MoveTowards(transform.position, new Vector2(whereToGoX,transform.position.y), moveSpeed*Time.deltaTime);
+        while (transform.position.x != whereToGoX)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, new Vector2(whereToGoX,transform.position.y), moveSpeed*Time.deltaTime);
+            yield return null;
+        }
+
+        bool goDown = true;
+        while (goDown)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x, yLimit),
+                moveSpeed * Time.deltaTime);
+            if (transform.position.y <= yLimit)
+            {
+                Destroy(gameObject);
+                goDown = false;
+            }
+            yield return null;
+        }
+        yield return null;
     }
 
-    private void RegularEnemy()
+    private IEnumerator RegularEnemy()
     {
-        //Height Y move
-        plusPos.y = -moveSpeed * Time.deltaTime;
-        
-        //Width X move
-        if ((xPos >= transform.position.x-0.1f) && (xPos <= transform.position.x+0.1f))
+        bool moveDown = true;
+        while (moveDown)
         {
-            GetRandomWidth();
+            //Height Y move
+            plusPos.y = -moveSpeed * Time.deltaTime;
+        
+            //Width X move
+            if ((xPos >= transform.position.x-0.1f) && (xPos <= transform.position.x+0.1f))
+            {
+                GetRandomWidth();
+            }
+
+            if (xPos > transform.position.x)
+            {
+                plusPos.x = moveSpeed * Time.deltaTime;
+            }
+        
+            if (xPos < transform.position.x)
+            {
+                plusPos.x = -moveSpeed * Time.deltaTime;
+            }
+        
+            //Set new position
+            transform.position += plusPos;
+        
+            //Destroy if far away
+            if (transform.position.y < yLimit - 1f)
+            {
+                Destroy(gameObject);
+                moveDown = false;
+            }
+
+            yield return null;
         }
 
-        if (xPos > transform.position.x)
-        {
-            plusPos.x = moveSpeed * Time.deltaTime;
-        }
-        
-        if (xPos < transform.position.x)
-        {
-            plusPos.x = -moveSpeed * Time.deltaTime;
-        }
-        
-        //Set new position
-        transform.position += plusPos;
-        
-        //Destroy if far away
-        if (transform.position.y < yLimit - 1f)
-        {
-            Destroy(gameObject);
-        }
+        yield return null;
     }
     
     

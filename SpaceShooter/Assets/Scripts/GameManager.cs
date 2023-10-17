@@ -53,9 +53,7 @@ public class GameManager : MonoBehaviour
             CheckIfBossTime();
             
             timeLeft.text = time.ToString("F2", CultureInfo.InvariantCulture);
-            
-            
-            
+
             yield return null;
         }
         yield return null;
@@ -63,11 +61,10 @@ public class GameManager : MonoBehaviour
 
     private void CheckIfBossTime()
     {
-        if (time < 55f && !bossSpawned)
+        if (time < 35f && !bossSpawned)
         {
-            youWon.text = "Boss time";
-            GetComponent<EnemySpawner>().SpawnBoss();
             bossSpawned = true;
+            GetComponent<EnemySpawner>().SpawnBoss();
         }
     }
 

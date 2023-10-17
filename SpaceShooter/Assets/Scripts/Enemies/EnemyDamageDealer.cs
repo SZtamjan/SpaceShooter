@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class EnemyDamageDealer : MonoBehaviour
 {
+    [SerializeField] private bool isBoss = false;
     [SerializeField] private int enemyHP = 10;
     [SerializeField] private int enemyDamage = 5;
     
@@ -21,18 +22,48 @@ public class EnemyDamageDealer : MonoBehaviour
             
     }
 
+    public bool isBossProperty
+    {
+        set
+        {
+            isBoss = value;
+        }
+    }
+
     public void DealDamage(int damage)
     {
         enemyHP -= damage;
-        if(enemyHP <= 0) EnemyDie();
+        if (enemyHP <= 0)
+        {
+            if (isBoss)
+            {
+                BossDie();
+            }
+            else
+            {
+                EnemyDie();
+            }
+        }
+    }
+
+    private void BossDie()
+    {
+        //Update Score
+        GameManager.Instance.UpdateScore(5);
+        SpawnBoost();
+        Destroy(gameObject);
     }
 
     private void EnemyDie()
     {
         //Update Score
         GameManager.Instance.UpdateScore(1);
-        
         Destroy(gameObject);
+    }
+
+    private void SpawnBoost()
+    {
+        Instantiate(GameManager.Instance.boost, transform.position, Quaternion.identity);
     }
     
 }
