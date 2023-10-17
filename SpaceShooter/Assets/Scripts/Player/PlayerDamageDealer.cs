@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class PlayerDamageDealer : MonoBehaviour
 {
+    //Do usuniecia, kloci sie z celem gry - ma sie nie da przegrac
+    
     [SerializeField] private int playerHP = 50;
 
     public void DealDamage(int dmg)
@@ -22,11 +24,11 @@ public class PlayerDamageDealer : MonoBehaviour
     {
         if (playerHP <= 0)
         {
-            Die();
+            PlayerDie();
         }
     }
 
-    private void Die()
+    private void PlayerDie()
     {
         //Do something
         Destroy(gameObject);

@@ -7,19 +7,28 @@ public class PlayerShoot : MonoBehaviour
 {
     [Header("Guns and Bullets")]
     public GameObject bullet;
-
+    private int currentDamage = 10;
+    
+    //Gun presets
     public GameObject GunPresetOne;
     public GameObject GunPresetTwo;
     private List<GameObject> GunPresetThree = new List<GameObject>();
-
-
+    
+    //Shot
     private bool isShooting = true;
     
     private void Start()
     {
+        InitData();
+        
+        StartCoroutine(Fire());
+    }
+
+    private void InitData()
+    {
+        //Load presets
         GunPresetThree.Add(GunPresetOne);
         GunPresetThree.Add(GunPresetTwo);
-        StartCoroutine(Fire());
     }
 
     private IEnumerator Fire()
@@ -40,7 +49,8 @@ public class PlayerShoot : MonoBehaviour
     {
         Transform spawnAt = GunPresetOne.transform.GetChild(0);
         Vector3 spawnPos = spawnAt.position;
-        Instantiate(bullet, spawnPos, Quaternion.identity);
+        GameObject projectile = Instantiate(bullet, spawnPos, Quaternion.identity);
+        projectile.GetComponent<ProjectileDamage>().ProjectileDamageProperty = currentDamage;
     }
     
 }

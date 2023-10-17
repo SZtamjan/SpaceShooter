@@ -7,6 +7,7 @@ public class EnemySpawner : MonoBehaviour
 {
     public Transform spawner;
     public List<GameObject> enemy;
+    public GameObject enemyBoss;
 
     private Vector2 xBounds;
     
@@ -31,7 +32,7 @@ public class EnemySpawner : MonoBehaviour
             int enemyNo = Random.Range(0, enemy.Count);
             GameObject newEnemy = enemy[enemyNo];
 
-            Instantiate(newEnemy, new Vector3(xPos, 7, 0),Quaternion.identity);
+            Instantiate(newEnemy, new Vector3(xPos, spawner.position.y, 0),Quaternion.identity);
             i++;
 
             yield return new WaitForSeconds(1f);
@@ -40,4 +41,10 @@ public class EnemySpawner : MonoBehaviour
         }
 
     }
+
+    public void SpawnBoss()
+    {
+        Instantiate(enemyBoss, spawner);
+    }
+    
 }

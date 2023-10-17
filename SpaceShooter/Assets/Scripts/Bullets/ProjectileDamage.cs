@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,24 +9,33 @@ public class ProjectileDamage : MonoBehaviour
 
     public int ProjectileDamageProperty
     {
-        get
-        {
-            return damage; // Pobieranie wartości właściwości.
-        }
         set
         {
-            // Tutaj możesz dodać swoją logikę lub walidację.
-            if (value >= 0) // Przykładowa walidacja (wartość musi być nieujemna).
+            if (value >= 0)
             {
-                damage = value; // Przypisanie wartości do prywatnego pola.
+                damage = value;
             }
             else
             {
-                Debug.LogError("Wartość musi być nieujemna.");
+                Debug.LogError("Value can't be less than 0.");
             }
         }
     }
-    
-    
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            other.gameObject.GetComponent<EnemyDamageDealer>().DealDamage(damage);
+            Explode();
+        }
+
+        
+    }
+
+    private void Explode()
+    {
+        Destroy(gameObject);
+    }
     
 }

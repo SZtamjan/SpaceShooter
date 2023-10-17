@@ -11,7 +11,28 @@ public class EnemyDamageDealer : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D other)
     {
-        print("trigger z graczem");
-        other.gameObject.GetComponent<PlayerDamageDealer>().DealDamage(enemyDamage);
+
+        if (other.gameObject.CompareTag("Player"))
+        {
+            print("trigger z graczem");
+            other.gameObject.GetComponent<PlayerDamageDealer>().DealDamage(enemyDamage);
+            EnemyDie();
+        }
+            
     }
+
+    public void DealDamage(int damage)
+    {
+        enemyHP -= damage;
+        if(enemyHP <= 0) EnemyDie();
+    }
+
+    private void EnemyDie()
+    {
+        //Update Score
+        GameManager.Instance.UpdateScore(1);
+        
+        Destroy(gameObject);
+    }
+    
 }

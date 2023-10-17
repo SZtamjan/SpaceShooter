@@ -6,13 +6,19 @@ using Random = UnityEngine.Random;
 
 public class EnemyMover : MonoBehaviour
 {
+    
+    
     public float moveSpeed = 1f;
     private Vector3 plusPos = new Vector3(0,0,0);
     private Vector2 xLimits;
     private float yLimit;
     
     private float xPos;
-
+    
+    [Header("Am I From Boss")]
+    public bool isFromBoss = false;
+    public float whereToGoX;
+    
     private void Start()
     {
         PlayerScript mov = PlayerScript.Instance;
@@ -23,6 +29,23 @@ public class EnemyMover : MonoBehaviour
     }
 
     private void Update()
+    {
+        if (isFromBoss)
+        {
+            EnemyFromBoss();
+        }
+        else
+        {
+            RegularEnemy();
+        }
+    }
+    
+    private void EnemyFromBoss()
+    {
+        transform.position = Vector2.MoveTowards(transform.position, new Vector2(whereToGoX,transform.position.y), moveSpeed*Time.deltaTime);
+    }
+
+    private void RegularEnemy()
     {
         //Height Y move
         plusPos.y = -moveSpeed * Time.deltaTime;
@@ -52,7 +75,9 @@ public class EnemyMover : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
+    
+    
+    
     private void GetRandomWidth()
     {
         xPos = Random.Range(xLimits.x, xLimits.y);
