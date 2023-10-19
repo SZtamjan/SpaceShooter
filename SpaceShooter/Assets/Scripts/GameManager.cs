@@ -13,22 +13,18 @@ public class GameManager : MonoBehaviour
     {
         Instance = this;
     }
-    
+
     bool bossSpawned = false;
 
-    [Header("Display Time")] 
-    public TextMeshProUGUI timeLeft;
+    [Header("Display Time")] public TextMeshProUGUI timeLeft;
     private float time = 60f;
 
-    [Header("Display Score")] 
-    public TextMeshProUGUI scoreText;
+    [Header("Display Score")] public TextMeshProUGUI scoreText;
     private int totalScore = 0;
-    
-    [Header("Display Win or Lose")]
-    public TextMeshProUGUI youWon;
 
-    [Header("Boost time")] 
-    public GameObject boost;
+    [Header("Display Win or Lose")] public TextMeshProUGUI youWon;
+
+    [Header("Boost time")] public GameObject boost;
 
     private void Start()
     {
@@ -41,27 +37,28 @@ public class GameManager : MonoBehaviour
         youWon.text = "";
         scoreText.text = totalScore.ToString();
     }
-    
+
     private IEnumerator StartTimer()
     {
-        
+
         while (time > 0)
         {
             time -= Time.deltaTime;
 
             CheckIfTimeRunOut();
             CheckIfBossTime();
-            
+
             timeLeft.text = time.ToString("F2", CultureInfo.InvariantCulture);
 
             yield return null;
         }
+
         yield return null;
     }
 
     private void CheckIfBossTime()
     {
-        if (time < 35f && !bossSpawned)
+        if (time < 55f && !bossSpawned)
         {
             bossSpawned = true;
             GetComponent<EnemySpawner>().SpawnBoss();
@@ -76,7 +73,7 @@ public class GameManager : MonoBehaviour
             youWon.text = "Winn!!1!";
         }
     }
-    
+
     public void UpdateScore(int deltaScore)
     {
         totalScore += deltaScore;

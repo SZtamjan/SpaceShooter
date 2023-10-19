@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6769804424968305326}
   - component: {fileID: 2914811675663478254}
   - component: {fileID: -1285897938296928968}
+  - component: {fileID: -7796573061452487322}
   - component: {fileID: 6844537352331249247}
   m_Layer: 0
   m_Name: 2dbattery
@@ -99,6 +100,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   batterySpeed: 1
+--- !u!114 &-7796573061452487322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8024664898759358638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cde26d6d9eb5b64c8b1849f8007ab4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!61 &6844537352331249247
 BoxCollider2D:
   m_ObjectHideFlags: 0
