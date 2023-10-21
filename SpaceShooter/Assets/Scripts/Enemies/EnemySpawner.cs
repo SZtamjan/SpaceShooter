@@ -59,6 +59,7 @@ public class EnemySpawner : MonoBehaviour
         //Load Hardcore mode
         spawnTime = 0.2f;
         player.Thor(true);
+        player.GetComponent<PlayerShoot>().fireRate = 0.1f;
         
         //Hold Hardcore Mode
         yield return new WaitForSeconds(15f);
