@@ -24,7 +24,13 @@ public class BatteryMover : MonoBehaviour
             yield return null;
         }
         
-        Destroy(gameObject);
+        HideBattery();
         
+    }
+
+    public void HideBattery()
+    {
+        StopCoroutine(MoveMe());
+        transform.position = new Vector2(10,30);
     }
 }

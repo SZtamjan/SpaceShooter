@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -15,6 +14,9 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float spawnTime = 1f;
 
     private PlayerScript player;
+
+    [Header("Boss stuff")] 
+    [SerializeField] private bool isBossOn = false;
     
     private void Start()
     {
@@ -25,7 +27,6 @@ public class EnemySpawner : MonoBehaviour
 
     public IEnumerator SpawnEnemies()
     {
-        int i = 0;
         bool spawning = true;
         
         while (spawning)
@@ -34,10 +35,10 @@ public class EnemySpawner : MonoBehaviour
             
             int enemyNo = Random.Range(0, enemy.Count);
             GameObject newEnemy = enemy[enemyNo];
-
-            Instantiate(newEnemy, new Vector3(xPos, spawner.position.y, 0),Quaternion.identity);
-            i++;
-
+                
+            GameObject enem = Instantiate(newEnemy, new Vector3(xPos, spawner.position.y, 0),Quaternion.identity);
+            enem.GetComponent<EnemyMover>().skipX = isBossOn;
+            
             yield return new WaitForSeconds(spawnTime);
             
             yield return null;
@@ -50,26 +51,35 @@ public class EnemySpawner : MonoBehaviour
         GameObject boss = Instantiate(enemyBoss, spawner);
         boss.GetComponent<EnemyDamageDealer>().isBossProperty = true;
     }
-
+    
+   
+    
     public IEnumerator HardcoreMode()
     {
         //Save Regular Mode
+        float currentFireRate = player.GetComponent<PlayerShoot>().fireRate;
+        player = PlayerScript.Instance;
         float regularSpawnTime = spawnTime;
         
         //Load Hardcore mode
-        spawnTime = 0.2f;
-        player.Thor(true);
+        isBossOn = true;
+        spawnTime = 0.05f;
+        player.GetComponent<PlayerShoot>().gunState = PlayerShoot.GunState.Hardcore;
         player.GetComponent<PlayerShoot>().fireRate = 0.1f;
-        
+
+        //Balance Hardcore Mode
+        yield return new WaitForSeconds(2f);
+        spawnTime = 0.1f;
+
         //Hold Hardcore Mode
-        yield return new WaitForSeconds(15f);
+        yield return new WaitForSeconds(13f);
         
         //Load Regular Mode
-        player.Thor(false);
-        player.GetComponent<PlayerShoot>().fireRate = 1f;
+        isBossOn = false;
+        player.GetComponent<PlayerShoot>().gunState = PlayerShoot.GunState.PresetTwo;
+        player.GetComponent<PlayerShoot>().fireRate = currentFireRate;
         spawnTime = regularSpawnTime;
         
         yield return null;
     }
-    
 }

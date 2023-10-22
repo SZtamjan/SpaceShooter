@@ -572,6 +572,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7120840532889535186, guid: 401d8aca9e846254890399f66cd7de66, type: 3}
+      propertyPath: gunState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7120840532889535186, guid: 401d8aca9e846254890399f66cd7de66, type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
@@ -1173,7 +1177,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 711357954}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1c6c7520c264cfd4f9023775c0180eea, type: 3}
   m_Name: 
@@ -1185,6 +1189,7 @@ MonoBehaviour:
   - {fileID: 6976769246009448353, guid: a21837a7608c526428fae592c5f1918c, type: 3}
   enemyBoss: {fileID: 8513819100505361686, guid: 1f6df1d98aecfcc4fb1dd8fb10cf84c3, type: 3}
   spawnTime: 1
+  isBossOn: 0
 --- !u!114 &711357958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1197,7 +1202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d51ab5fe8b3b2844fb52fd082d34d4fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isBossSpawnable: 0
+  isBossSpawnable: 1
   timeLeft: {fileID: 1736182151}
   scoreText: {fileID: 1479631550}
   youWon: {fileID: 611120926}

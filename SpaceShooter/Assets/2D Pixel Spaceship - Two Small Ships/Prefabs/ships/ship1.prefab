@@ -212,11 +212,11 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
-  fireRate: 1
+  fireRate: 0.5
   GunPresetOne: {fileID: 8366507651822010176}
   GunPresetTwo: {fileID: 6596792126920186512}
   isShooting: 1
-  dbg: {fileID: 4280022577449572981, guid: 330373808a1c9e040ab0e53b0e6daefe, type: 3}
+  gunState: 0
 --- !u!114 &3894259367323856678
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -10,7 +10,7 @@ public class BatteryActivator : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             StartCoroutine(GameManager.Instance.GetComponent<EnemySpawner>().HardcoreMode());
-            Destroy(gameObject);
+            GetComponent<BatteryMover>().HideBattery();
         }
     }
 }

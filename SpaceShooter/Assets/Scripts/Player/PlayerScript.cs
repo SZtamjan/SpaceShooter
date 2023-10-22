@@ -38,18 +38,4 @@ public class PlayerScript : MonoBehaviour
             
         }
     }
-
-    public void Thor(bool isOn)
-    {
-        if (isOn)
-        {
-            
-            
-            
-        }
-        else
-        {
-            
-        }
-    }
 }

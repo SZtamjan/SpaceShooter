@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DigitalRuby.ThunderAndLightning;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -16,7 +17,7 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] private float hardcoreGunRange = -2f;
     [SerializeField] private LayerMask enemyLayer;
 
-    public float fireRate = 1f;
+    public float fireRate = 0.5f;
 
     //Gun presets
     public GameObject GunPresetOne;
@@ -25,10 +26,12 @@ public class PlayerShoot : MonoBehaviour
     
     //Shot
     public bool isShooting = true;
+    public GunState gunState;
     
     private void Start()
     {
         InitData();
+
         
         StartCoroutine(Fire());
     }
@@ -44,10 +47,21 @@ public class PlayerShoot : MonoBehaviour
     {
         while (isShooting)
         {
-            //FirePresetOne();
-
-            FireHardcore();
-
+            switch (gunState)
+            {
+                case GunState.PresetOne:
+                    FirePresetOne();
+                    break;
+                case GunState.PresetTwo:
+                    FirePresetTwo();
+                    break;
+                case GunState.Hardcore:
+                    FireHardcore();
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+            
             yield return new WaitForSeconds(fireRate);
             yield return null;
         }
@@ -56,37 +70,44 @@ public class PlayerShoot : MonoBehaviour
 
     private void FirePresetOne()
     {
-        
         Transform spawnAt = GunPresetOne.transform.GetChild(0);
         Vector3 spawnPos = spawnAt.position;
         GameObject projectile = Instantiate(bullet, spawnPos, Quaternion.identity);
         projectile.GetComponent<ProjectileDamage>().ProjectileDamageProperty = currentDamage;
     }
+
+    private void FirePresetTwo()
+    {
+        Transform spawnAtOne = GunPresetTwo.transform.GetChild(0);
+        Transform spawnAtTwo = GunPresetTwo.transform.GetChild(1);
+        
+        Vector3 spawnPosO = spawnAtOne.position;
+        Vector3 spawnPosT = spawnAtTwo.position;
+        
+        GameObject projectileO = Instantiate(bullet, spawnPosO, Quaternion.identity);
+        projectileO.GetComponent<ProjectileDamage>().ProjectileDamageProperty = currentDamage;
+        
+        GameObject projectileT = Instantiate(bullet, spawnPosT, Quaternion.identity);
+        projectileT.GetComponent<ProjectileDamage>().ProjectileDamageProperty = currentDamage;
+    }
     
     
     private void FireHardcore()
     {
-        //REMEMBER TO REMOVE LINE BELOW - IT WILL WORK FROM EnemySpawner
-        fireRate = 0.1f;
-
-        bool foundAnything = false;
-        
         Collider2D[] foundEnemies = Physics2D.OverlapBoxAll(new Vector2(transform.position.x, transform.position.y + 4f),
             new Vector2(8, 8), 0f, enemyLayer);
-        
-        if(foundEnemies != null) foundAnything = true;
-        
-        
+
+
         List<GameObject> inField = CheckIfInRange(foundEnemies);
         
-
-        if (foundAnything)
-        {
-            float closest = 99f;
-            GameObject closestObj = null;
         
+        float closest = 99f;
+        GameObject closestObj = null;
+        
+        if (inField.Count > 0)
+        {
             //Calculate distance and choose
-            foreach (GameObject enemy in inField) // zaraz zamień dwa na inRange
+            foreach (GameObject enemy in inField)
             {
                 float currentlyClosest = Vector2.Distance(enemy.transform.position, transform.position);
 
@@ -97,14 +118,14 @@ public class PlayerShoot : MonoBehaviour
                 }
             }
             
-            TurnOnThor(true, closestObj); 
-            
+            //Fire
+            TurnOnThor(true, closestObj);
         }
         else
         {
+            //Stop Fire
             TurnOnThor(false);
         }
-        
     }
 
     private void TurnOnThor(bool turnOn, GameObject enemyPos)
@@ -112,6 +133,7 @@ public class PlayerShoot : MonoBehaviour
         thunder.GetComponent<LightningBoltPrefabScript>().Source = GunPresetOne.transform.GetChild(0).gameObject;
         thunder.GetComponent<LightningBoltPrefabScript>().Destination = enemyPos;
         thunder.SetActive(turnOn);
+        StartCoroutine(KillEnemy(enemyPos));
     }
     
     private void TurnOnThor(bool turnOn)
@@ -146,5 +168,19 @@ public class PlayerShoot : MonoBehaviour
         return enemiesInField;
     }
 
+    private IEnumerator KillEnemy(GameObject enemy)
+    {
+        yield return new WaitForSeconds(fireRate - 0.01f);
+        Destroy(enemy);
+        
+        yield return null;
+    }
+    
+    public enum GunState
+    {
+        PresetOne,
+        PresetTwo,
+        Hardcore
+    }
     
 }

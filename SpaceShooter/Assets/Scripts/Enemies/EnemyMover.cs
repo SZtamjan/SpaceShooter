@@ -6,14 +6,13 @@ using Random = UnityEngine.Random;
 
 public class EnemyMover : MonoBehaviour
 {
-    
-    
     public float moveSpeed = 1f;
     private Vector3 plusPos = new Vector3(0,0,0);
     private Vector2 xLimits;
     private float yLimit;
     
     private float xPos;
+    public bool skipX = false;
     
     [Header("Am I From Boss")]
     public bool isFromBoss = false;
@@ -67,22 +66,26 @@ public class EnemyMover : MonoBehaviour
         {
             //Height Y move
             plusPos.y = -moveSpeed * Time.deltaTime;
-        
-            //Width X move
-            if ((xPos >= transform.position.x-0.1f) && (xPos <= transform.position.x+0.1f))
-            {
-                GetRandomWidth();
-            }
 
-            if (xPos > transform.position.x)
+            if (!skipX)
             {
-                plusPos.x = moveSpeed * Time.deltaTime;
-            }
+                //Width X move
+                if ((xPos >= transform.position.x-0.1f) && (xPos <= transform.position.x+0.1f))
+                {
+                    GetRandomWidth();
+                }
+
+                if (xPos > transform.position.x)
+                {
+                    plusPos.x = moveSpeed * Time.deltaTime;
+                }
         
-            if (xPos < transform.position.x)
-            {
-                plusPos.x = -moveSpeed * Time.deltaTime;
+                if (xPos < transform.position.x)
+                {
+                    plusPos.x = -moveSpeed * Time.deltaTime;
+                }
             }
+            
         
             //Set new position
             transform.position += plusPos;

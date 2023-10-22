@@ -393,7 +393,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isBoss: 0
-  enemyHP: 150
+  enemyHP: 100
   enemyDamage: 5
 --- !u!68 &6524343430738967282
 EdgeCollider2D:
