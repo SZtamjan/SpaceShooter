@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
 
     private void CheckIfBossTime()
     {
-        if (time < 55f && !bossSpawned)
+        if (time < 35f && !bossSpawned)
         {
             bossSpawned = true;
             GetComponent<EnemySpawner>().SpawnBoss();
