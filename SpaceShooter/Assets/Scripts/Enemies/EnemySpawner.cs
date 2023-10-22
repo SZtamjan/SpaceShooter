@@ -63,7 +63,7 @@ public class EnemySpawner : MonoBehaviour
         
         //Load Hardcore mode
         isBossOn = true;
-        spawnTime = 0.05f;
+        spawnTime = 0.02f;
         player.GetComponent<PlayerShoot>().gunState = PlayerShoot.GunState.Hardcore;
         player.GetComponent<PlayerShoot>().fireRate = 0.1f;
 
@@ -71,15 +71,17 @@ public class EnemySpawner : MonoBehaviour
         yield return new WaitForSeconds(2f);
         spawnTime = 0.1f;
 
+        yield return new WaitForSeconds(10f);
+        spawnTime = regularSpawnTime;
+
         //Hold Hardcore Mode
-        yield return new WaitForSeconds(13f);
+        yield return new WaitForSeconds(3f);
         
         //Load Regular Mode
         isBossOn = false;
         player.GetComponent<PlayerShoot>().gunState = PlayerShoot.GunState.PresetTwo;
         player.GetComponent<PlayerShoot>().fireRate = currentFireRate;
-        spawnTime = regularSpawnTime;
-        
+
         yield return null;
     }
 }

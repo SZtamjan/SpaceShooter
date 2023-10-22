@@ -50,9 +50,11 @@ public class PlayerShoot : MonoBehaviour
             switch (gunState)
             {
                 case GunState.PresetOne:
+                    TurnOnThor(false);
                     FirePresetOne();
                     break;
                 case GunState.PresetTwo:
+                    TurnOnThor(false);
                     FirePresetTwo();
                     break;
                 case GunState.Hardcore:

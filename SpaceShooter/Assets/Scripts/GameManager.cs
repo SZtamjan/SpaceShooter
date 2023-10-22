@@ -7,9 +7,6 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [Header("TMP")]
-    public bool isBossSpawnable = false;
-    
     public static GameManager Instance;
 
     private void Awake()
@@ -49,7 +46,7 @@ public class GameManager : MonoBehaviour
             time -= Time.deltaTime;
 
             CheckIfTimeRunOut();
-            if(isBossSpawnable) CheckIfBossTime();
+            CheckIfBossTime();
             
 
             timeLeft.text = time.ToString("F2", CultureInfo.InvariantCulture);

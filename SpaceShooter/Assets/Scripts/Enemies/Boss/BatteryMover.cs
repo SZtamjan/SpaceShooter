@@ -8,12 +8,13 @@ public class BatteryMover : MonoBehaviour
 {
     public float batterySpeed = 1f;
     private Vector2 borders;
+    private Coroutine moveCor;
     private void Start()
     {
         Vector2 currLimits = Camera.main.ViewportToWorldPoint(new Vector2(0,-0.15f));
         borders = new Vector2(transform.position.x, currLimits.y);
 
-        StartCoroutine(MoveMe());
+        moveCor = StartCoroutine(MoveMe());
     }
 
     private IEnumerator MoveMe()
@@ -30,7 +31,7 @@ public class BatteryMover : MonoBehaviour
 
     public void HideBattery()
     {
-        StopCoroutine(MoveMe());
+        StopCoroutine(moveCor);
         transform.position = new Vector2(10,30);
     }
 }
