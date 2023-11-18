@@ -6,17 +6,25 @@ using UnityEngine;
 
 public class EnemyDamageDealer : MonoBehaviour
 {
-    [SerializeField] private bool isBoss = false;
-    [SerializeField] private int enemyHP = 10;
-    [SerializeField] private int enemyDamage = 5;
+    [System.Serializable]
+    private class EnemyStats
+    {
+        public bool isBoss = false;
+        public int enemyHP = 10;
+        public int enemyDamage = 5;
+    }
+
+    [SerializeField] private EnemyStats current, backUp;
+
     
+
     private void OnTriggerEnter2D(Collider2D other)
     {
 
         if (other.gameObject.CompareTag("Player"))
         {
             print("trigger z graczem");
-            other.gameObject.GetComponent<PlayerDamageDealer>().DealDamage(enemyDamage);
+            other.gameObject.GetComponent<PlayerDamageDealer>().DealDamage(current.enemyDamage);
             EnemyDie();
         }
             
@@ -26,16 +34,16 @@ public class EnemyDamageDealer : MonoBehaviour
     {
         set
         {
-            isBoss = value;
+            current.isBoss = value;
         }
     }
 
     public void DealDamage(int damage)
     {
-        enemyHP -= damage;
-        if (enemyHP <= 0)
+        current.enemyHP -= damage;
+        if (current.enemyHP <= 0)
         {
-            if (isBoss)
+            if (current.isBoss)
             {
                 BossDie();
             }
@@ -58,12 +66,19 @@ public class EnemyDamageDealer : MonoBehaviour
     {
         //Update Score
         GameManager.Instance.UpdateScore(1);
-        Destroy(gameObject);
+        GetComponent<EnemyMover>().EnemySpawnerProp.pool.Enqueue(gameObject);
+        GetComponent<EnemyMover>().EnemySpawnerProp.SetEnemySpawnPosition(gameObject);
+        gameObject.SetActive(false);
     }
 
     private void SpawnBoost()
     {
         Instantiate(GameManager.Instance.boost, transform.position, Quaternion.identity);
+    }
+
+    public void RestoreEnemy()
+    {
+        current = backUp;
     }
     
 }

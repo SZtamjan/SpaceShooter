@@ -8,6 +8,9 @@ using UnityEngine;
 
 public class PlayerShoot : MonoBehaviour
 {
+    private GameManager _gameManager;
+    private EnemySpawner _enemySpawner;
+    
     [Header("Guns and Bullets")]
     public GameObject bullet;
     private int currentDamage = 10;
@@ -38,6 +41,9 @@ public class PlayerShoot : MonoBehaviour
 
     private void InitData()
     {
+        _gameManager = GameManager.Instance;
+        _enemySpawner = _gameManager.GetComponent<EnemySpawner>();
+        
         //Load presets
         GunPresetThree.Add(GunPresetOne);
         GunPresetThree.Add(GunPresetTwo);
@@ -60,6 +66,9 @@ public class PlayerShoot : MonoBehaviour
                 case GunState.Hardcore:
                     FireHardcore();
                     break;
+                case GunState.StopFiring:
+                    StopShooting();
+                    break;
                 default:
                     throw new NotImplementedException();
             }
@@ -68,6 +77,11 @@ public class PlayerShoot : MonoBehaviour
             yield return null;
         }
         yield return null;
+    }
+
+    private void StopShooting()
+    {
+        isShooting = false;
     }
 
     private void FirePresetOne()
@@ -173,7 +187,12 @@ public class PlayerShoot : MonoBehaviour
     private IEnumerator KillEnemy(GameObject enemy)
     {
         yield return new WaitForSeconds(fireRate - 0.01f);
-        Destroy(enemy);
+        //Destroy(enemy);
+        
+        
+        _enemySpawner.pool.Enqueue(enemy);
+        _enemySpawner.SetEnemySpawnPosition(enemy);
+        enemy.SetActive(false);
         
         yield return null;
     }
@@ -182,7 +201,8 @@ public class PlayerShoot : MonoBehaviour
     {
         PresetOne,
         PresetTwo,
-        Hardcore
+        Hardcore,
+        StopFiring
     }
     
 }

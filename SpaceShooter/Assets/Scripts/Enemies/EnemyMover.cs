@@ -1,39 +1,75 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class EnemyMover : MonoBehaviour
 {
+    private EnemySpawner _enemySpawner;
+
+    public EnemySpawner EnemySpawnerProp
+    {
+        get => _enemySpawner;
+    }
+    
     public float moveSpeed = 1f;
     private Vector3 plusPos = new Vector3(0,0,0);
     private Vector2 xLimits;
     private float yLimit;
     
-    private float xPos;
+
+    public float xPos;
     public bool skipX = false;
     
     [Header("Am I From Boss")]
     public bool isFromBoss = false;
     public float whereToGoX;
+    private Coroutine cor;
+
+
+    public int a, b, c, d = 0;
     
     private void Start()
     {
+        InitData();
+    }
+
+    private void InitData()
+    {
+        _enemySpawner = GameManager.Instance.GetComponent<EnemySpawner>();
         PlayerScript mov = PlayerScript.Instance;
         xLimits = new Vector2(mov.minBounds.x, mov.maxBounds.x);
         yLimit = mov.minBounds.y;
+        plusPos = new Vector3(0,0,0);
         
         GetRandomWidth();
-        
+    }
+
+    private void CorMan()
+    {
         if (isFromBoss)
         {
-            StartCoroutine(EnemyFromBoss());
+            if(cor == null) cor = StartCoroutine(EnemyFromBoss());
         }
         else
         {
-            StartCoroutine(RegularEnemy());
+            if(cor == null) cor = StartCoroutine(RegularEnemy());
         }
+    }
+
+    private void OnEnable()
+    {
+        InitData();
+        CorMan();
+    }
+
+    private void OnDisable()
+    {
+        if(cor != null) StopCoroutine(cor);
+        cor = null;
     }
 
     private IEnumerator EnemyFromBoss()
@@ -66,6 +102,9 @@ public class EnemyMover : MonoBehaviour
         {
             //Height Y move
             plusPos.y = -moveSpeed * Time.deltaTime;
+            plusPos.x = 0;
+
+            a++;
 
             if (!skipX)
             {
@@ -73,16 +112,19 @@ public class EnemyMover : MonoBehaviour
                 if ((xPos >= transform.position.x-0.1f) && (xPos <= transform.position.x+0.1f))
                 {
                     GetRandomWidth();
+                    b++;
                 }
 
                 if (xPos > transform.position.x)
                 {
                     plusPos.x = moveSpeed * Time.deltaTime;
+                    c++;
                 }
         
                 if (xPos < transform.position.x)
                 {
                     plusPos.x = -moveSpeed * Time.deltaTime;
+                    d++;
                 }
             }
             
@@ -93,7 +135,9 @@ public class EnemyMover : MonoBehaviour
             //Destroy if far away
             if (transform.position.y < yLimit - 1f)
             {
-                Destroy(gameObject);
+                _enemySpawner.pool.Enqueue(gameObject);
+                _enemySpawner.SetEnemySpawnPosition(gameObject);
+                gameObject.SetActive(false);
                 moveDown = false;
             }
 

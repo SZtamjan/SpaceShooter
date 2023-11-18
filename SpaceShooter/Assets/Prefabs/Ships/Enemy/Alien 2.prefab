@@ -101,6 +101,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 1
+  xPos: 0
+  skipX: 0
+  isFromBoss: 0
+  whereToGoX: 0
+  a: 0
+  b: 0
+  c: 0
+  d: 0
 --- !u!114 &7188114733134725580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,8 +121,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbe4f20897973ef46b6cb49dd3bdccb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyHP: 10
-  enemyDamage: 5
+  current:
+    isBoss: 0
+    enemyHP: 10
+    enemyDamage: 5
+  backUp:
+    isBoss: 0
+    enemyHP: 10
+    enemyDamage: 5
 --- !u!58 &3868585646976902969
 CircleCollider2D:
   m_ObjectHideFlags: 0
