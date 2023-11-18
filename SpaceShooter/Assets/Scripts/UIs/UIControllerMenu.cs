@@ -72,5 +72,10 @@ public class UIControllerMenu : MonoBehaviour
     {
         highScoreText.text = "Highscore: " + score;
     }
+
+    public void EitApp()
+    {
+        MenuManager.Instance.ExitApp();
+    }
     
 }

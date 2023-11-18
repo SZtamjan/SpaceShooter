@@ -15,7 +15,7 @@ public class EnemyDamageDealer : MonoBehaviour
     }
 
     [SerializeField] private EnemyStats current, backUp;
-
+    [SerializeField] private GameObject eksplosion;
     
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -61,10 +61,11 @@ public class EnemyDamageDealer : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void EnemyDie()
+    public void EnemyDie()
     {
         //Update Score
         GameManager.Instance.UpdateScore(1);
+        Instantiate(eksplosion, transform.position,Quaternion.identity);
         GetComponent<EnemyMover>().EnemySpawnerProp.pool.Enqueue(gameObject);
         GetComponent<EnemyMover>().EnemySpawnerProp.SetEnemySpawnPosition(gameObject);
         gameObject.SetActive(false);

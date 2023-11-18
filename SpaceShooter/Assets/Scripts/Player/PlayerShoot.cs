@@ -108,7 +108,7 @@ public class PlayerShoot : MonoBehaviour
     }
     
     
-    private void FireHardcore()
+    private void FireHardcore() 
     {
         Collider2D[] foundEnemies = Physics2D.OverlapBoxAll(new Vector2(transform.position.x, transform.position.y + 4f),
             new Vector2(8, 8), 0f, enemyLayer);
@@ -188,11 +188,7 @@ public class PlayerShoot : MonoBehaviour
     {
         yield return new WaitForSeconds(fireRate - 0.01f);
         //Destroy(enemy);
-        
-        
-        _enemySpawner.pool.Enqueue(enemy);
-        _enemySpawner.SetEnemySpawnPosition(enemy);
-        enemy.SetActive(false);
+        enemy.GetComponent<EnemyDamageDealer>().EnemyDie();
         
         yield return null;
     }

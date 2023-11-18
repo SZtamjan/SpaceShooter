@@ -5,7 +5,13 @@ using UnityEngine;
 
 public class MenuManager : MonoBehaviour
 {
+    public static MenuManager Instance;
     private UIControllerMenu _uiControllerMenu;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     private void Start()
     {
@@ -32,4 +38,10 @@ public class MenuManager : MonoBehaviour
         }
         _uiControllerMenu.LoadHighScore(score);
     }
+
+    public void ExitApp()
+    {
+        Application.Quit();
+    }
+    
 }

@@ -101,9 +101,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 1
+  xPos: 0
   skipX: 0
   isFromBoss: 0
   whereToGoX: 0
+  a: 0
+  b: 0
+  c: 0
+  d: 0
 --- !u!114 &-936532589122078446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,11 +124,10 @@ MonoBehaviour:
   current:
     isBoss: 0
     enemyHP: 10
-    enemyDamage: 5
   backUp:
     isBoss: 0
     enemyHP: 10
-    enemyDamage: 5
+  eksplosion: {fileID: 100002, guid: cafecd3fc3b761c45bb1553f35cf5c96, type: 3}
 --- !u!70 &2628864450876006011
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
