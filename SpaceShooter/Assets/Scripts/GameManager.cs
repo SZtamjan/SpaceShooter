@@ -2,11 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.PlayerLoop;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -21,19 +23,12 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        Application.targetFrameRate = 60;
         Instance = this;
     }
 
     bool bossSpawned = false;
-
-    [Header("Display Time")] public TextMeshProUGUI timeLeft;
     private float time = 60f;
-
-    [Header("Display Score")] public TextMeshProUGUI scoreText;
     private int totalScore = 0;
-
-    [Header("Display Win or Lose")] public TextMeshProUGUI youWon;
 
     [Header("Boost time")] public GameObject boost;
 
@@ -70,6 +65,8 @@ public class GameManager : MonoBehaviour
                 SetGameEnd();
                 break;
             case GameState.GameEnd:
+                SaveHighScore();
+                ShowEndScreen();
                 print("game ended now it should take player back to the menu or sth");
                 break;
             default:
@@ -89,7 +86,17 @@ public class GameManager : MonoBehaviour
         gameResume.Invoke();
     }
 
-    private void InitData()
+    public void ResetGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void ReturnToMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+        private void InitData()
     {
         //assign scripts
         _enemySpawnerScript = GetComponent<EnemySpawner>();
@@ -97,9 +104,8 @@ public class GameManager : MonoBehaviour
         _uiControllerGame = UIControllerGame.Instance;
         
         //set texts
-        timeLeft.text = time.ToString("F2", CultureInfo.InvariantCulture);
-        youWon.text = "";
-        scoreText.text = totalScore.ToString();
+        DisplayTime();
+        UpdateScore(0);
         
         //Assign events
         gamePause.AddListener(_playerScript.StopPlayerMovement);
@@ -141,8 +147,7 @@ public class GameManager : MonoBehaviour
                 apply = false;
             }
             
-
-            timeLeft.text = time.ToString("F2", CultureInfo.InvariantCulture);
+            DisplayTime();
 
             yield return null;
         }
@@ -203,7 +208,7 @@ public class GameManager : MonoBehaviour
     public void UpdateScore(int deltaScore)
     {
         totalScore += deltaScore;
-        scoreText.text = totalScore.ToString();
+        _uiControllerGame.DisplayScore(totalScore);
     }
 
     #endregion
@@ -217,10 +222,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void DisplayTime()
+    {
+        _uiControllerGame.DisplayTime(time,false);
+    }
+
     private void VictoryNotification()
     {
         time = 0f;
-        youWon.text = "Winn!!1!";
+        _uiControllerGame.DisplayTime(time,true);
     }
     
     #region EndGame
@@ -234,6 +244,16 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(5f);
         UpdateGameState(GameState.GameEnd);
+    }
+
+    private void SaveHighScore()
+    {
+        GetComponent<TemporarySaveSystem>().WriteHighScore(totalScore);
+    }
+    
+    private void ShowEndScreen()
+    {
+        _uiControllerGame.ShowFakePauseMenu();
     }
 
     #endregion

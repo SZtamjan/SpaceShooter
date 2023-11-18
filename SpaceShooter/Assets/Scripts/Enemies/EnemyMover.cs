@@ -50,14 +50,27 @@ public class EnemyMover : MonoBehaviour
 
     private void CorMan()
     {
-        if (isFromBoss)
+        if(cor == null) cor = StartCoroutine(RegularEnemy());
+    }
+
+    public void StartEnemiesFromBoss()
+    {
+        if (cor != null)
         {
-            if(cor == null) cor = StartCoroutine(EnemyFromBoss());
+            StopCoroutine(cor);
+            cor = null;
         }
-        else
+        cor = StartCoroutine(EnemyFromBoss());
+    }
+
+    public void StartRegularEnemies() //Implement someday - delete CorMan
+    {
+        if (cor != null)
         {
-            if(cor == null) cor = StartCoroutine(RegularEnemy());
+            StopCoroutine(cor);
+            cor = null;
         }
+        cor = StartCoroutine(RegularEnemy());
     }
 
     private void OnEnable()

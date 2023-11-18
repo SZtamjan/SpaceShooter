@@ -8,16 +8,18 @@ using UnityEngine.SceneManagement;
 
 public class UIControllerMenu : MonoBehaviour
 {
+    public static UIControllerMenu Instance;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     [SerializeField] private TextMeshProUGUI highScoreText;
     
     private Vector2 startTouch, endTouch;
     [SerializeField] private CanvasGroup blackOut;
     [SerializeField] private Transform ship;
-
-    private void Start()
-    {
-        LoadHighScore();
-    }
 
     private void Update()
     {
@@ -66,9 +68,8 @@ public class UIControllerMenu : MonoBehaviour
         SceneManager.LoadScene(newIndex);
     }
 
-    private void LoadHighScore()
+    public void LoadHighScore(string score)
     {
-        string score = "99999";
         highScoreText.text = "Highscore: " + score;
     }
     

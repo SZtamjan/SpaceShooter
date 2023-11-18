@@ -55,7 +55,7 @@ public class PlayerScript : MonoBehaviour
     {
         while (true)
         {
-            if (Input.touchCount > 0 && EventSystem.current.IsPointerOverGameObject())
+            if (Input.touchCount > 0 && !EventSystem.current.IsPointerOverGameObject())
             {
                 for (int i = 0; i < Input.touchCount; i++)
                 {

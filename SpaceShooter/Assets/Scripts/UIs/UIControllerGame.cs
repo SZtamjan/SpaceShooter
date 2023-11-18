@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 
 public class UIControllerGame : MonoBehaviour
@@ -12,11 +14,21 @@ public class UIControllerGame : MonoBehaviour
     {
         Instance = this;
     }
+
+    private GameManager _gameManager;
     
+    [Header("Displays")]
+    [SerializeField] private TextMeshProUGUI timerText;
+    [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI notificationText;
+    
+    
+    [Header("Others")]
     [SerializeField] private CanvasGroup blackOut;
     
     [Header("Pause Menu")]
     [SerializeField] private GameObject pauseMenuButton;
+    [SerializeField] private GameObject closeMenuButton;
     [SerializeField] private GameObject pauseMenu;
 
     public CanvasGroup blackOutProperty
@@ -29,27 +41,13 @@ public class UIControllerGame : MonoBehaviour
 
     private void Start()
     {
+        _gameManager = GameManager.Instance;
+
         mainCam = Camera.main;
         swipeBorder = mainCam.ViewportToWorldPoint(new Vector2(0,0.2f));
-    }
-
-    private void Update()
-    {
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
-        {
-            startTouch = Input.GetTouch(0).position;
-        }
         
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
-        {
-            endTouch = Input.GetTouch(0).position;
-            
-            if (endTouch.y < swipeBorder.y && endTouch.y > startTouch.y)
-            {
-                Debug.Log("tutaj zeswipowalem do gory i pozniej przejscie do kolejnej sceny");
-                //FlyOutAndBlackOutStart();
-            }
-        }
+        notificationText.text = "";
+        pauseMenu.SetActive(false);
     }
 
     public void FadeOutBlack()
@@ -65,7 +63,7 @@ public class UIControllerGame : MonoBehaviour
         {
             if (blackOut.alpha == 0)
             {
-                GameManager.Instance.StartAndWaitForFadeOut();
+                _gameManager.StartAndWaitForFadeOut();
                 break;
             }
             yield return null;
@@ -83,5 +81,42 @@ public class UIControllerGame : MonoBehaviour
         pauseMenu.SetActive(false);
         pauseMenuButton.SetActive(true);
     }
-    
+
+    public void ShowFakePauseMenu() //this is end screen - modified pause menu, just with removed close button
+    {
+        pauseMenuButton.SetActive(false);
+        pauseMenu.SetActive(true);
+        closeMenuButton.SetActive(false);
+    }
+
+    public void ResetGameButton()
+    {
+        _gameManager.ResetGame();
+    }
+
+    public void ReturnToMenuButton()
+    {
+        _gameManager.ReturnToMenu();
+    }
+
+    public void DisplayTime(float timeFloat, bool win)
+    {
+        string timeString = timeFloat.ToString("F2", CultureInfo.InvariantCulture);
+        if (win)
+        {
+            timerText.text = timeString;
+            notificationText.text = "Winn!!1!";
+            notificationText.gameObject.SetActive(true);
+        }
+        else
+        {
+            timerText.text = timeString;
+        }
+    }
+
+    public void DisplayScore(int score)
+    {
+        scoreText.text = score.ToString();
+    }
+
 }

@@ -31,8 +31,6 @@ public class BossEnemySpawner : MonoBehaviour
         yield return new WaitForSeconds(1f);
             
         SpawnNextPreset(2);
-
-
         yield return null;
     }
 
@@ -41,12 +39,15 @@ public class BossEnemySpawner : MonoBehaviour
         GameObject leftEnemy = Instantiate(localEnemy, spawnsLeft[presetNO].position,Quaternion.identity);
         GameObject rightEnemy = Instantiate(localEnemy, spawnsRight[presetNO].position,Quaternion.identity);
 
-        leftEnemy.GetComponent<EnemyMover>().isFromBoss = true;
-        leftEnemy.GetComponent<EnemyMover>().whereToGoX = leftEdge.x;
+        EnemyMover leftEnMover = leftEnemy.GetComponent<EnemyMover>();
+        leftEnMover.isFromBoss = true;
+        leftEnMover.whereToGoX = leftEdge.x;
+        leftEnMover.StartEnemiesFromBoss();
         
-        rightEnemy.GetComponent<EnemyMover>().isFromBoss = true;
-        rightEnemy.GetComponent<EnemyMover>().whereToGoX = rightEdge.x;
-        
+        EnemyMover rightEnMover = rightEnemy.GetComponent<EnemyMover>();
+        rightEnMover.isFromBoss = true;
+        rightEnMover.whereToGoX = rightEdge.x;
+        rightEnMover.StartEnemiesFromBoss();
         
         
     }

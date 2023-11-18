@@ -11,7 +11,7 @@ public class EnemyDamageDealer : MonoBehaviour
     {
         public bool isBoss = false;
         public int enemyHP = 10;
-        public int enemyDamage = 5;
+        
     }
 
     [SerializeField] private EnemyStats current, backUp;
@@ -24,7 +24,6 @@ public class EnemyDamageDealer : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             print("trigger z graczem");
-            other.gameObject.GetComponent<PlayerDamageDealer>().DealDamage(current.enemyDamage);
             EnemyDie();
         }
             
