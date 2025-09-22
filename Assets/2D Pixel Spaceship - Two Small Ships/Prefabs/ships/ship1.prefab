@@ -96,7 +96,6 @@ GameObject:
   - component: {fileID: 212833696140276620}
   - component: {fileID: 2831546342165254709}
   - component: {fileID: 7120840532889535186}
-  - component: {fileID: 3894259367323856678}
   - component: {fileID: 8074332561157825553}
   - component: {fileID: 2740956356073868530}
   - component: {fileID: 412907806351238189}
@@ -218,19 +217,6 @@ MonoBehaviour:
   GunPresetTwo: {fileID: 6596792126920186512}
   isShooting: 1
   gunState: 0
---- !u!114 &3894259367323856678
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1512782934554904}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1df0f10ead1793248af477cbbf711b6f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerHP: 50
 --- !u!68 &8074332561157825553
 EdgeCollider2D:
   m_ObjectHideFlags: 0
